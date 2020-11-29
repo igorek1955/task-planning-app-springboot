@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tasks List</title>
+</head>
+<body style="padding: 40px 100px">
+<form th:action="@{/generate-report}">
+    <p>Inputs are Case-sensitive</p>
+    <p>Leave empty for broadest results</p>
+    <input type="text" th:name="project" placeholder="Input Project name"/>
+    <input type="text" th:name="user" placeholder="Input Project name"/>
+    <input type="submit"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tasks List</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+</head>
+<body style="padding: 40px 40px">
+<div class="container">
+    <h2 style="align-self: center">Tasks</h2>
+    <table id="tasks" class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Project</th>
+            <th scope="col">Assignee</th>
+            <th scope="col">Edit Task</th>
+            <th scope="col">Delete Task</th>
+            <th scope="col">Subtasks</th>
+            <th scope="col">View/Add subtasks</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.project.name}"></td>
+            <td th:text="${task.user.name}"></td>
+            <td><a type="submit" class="btn btn-warning" th:href="@{'/tasks/' + ${task.id} + '/edit'}" role="button">Edit</a></td>
+            <td><a type="submit" class="btn btn-danger" th:href="@{'/tasks/' + ${task.id} + '/delete'}" role="button">Delete</a></td>
+            </td>
+            <td th:text="${task.subtasks.size()}"></td>
+            <td><a type="submit" class="btn btn-success" th:href="@{'/tasks/' + ${task.id} + '/subtasks'}" role="button">More</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <row>
+        <form>
+
+        </form>
+    </row>
+    <row>
+        <a type="submit" class="btn btn-primary" th:href="@{/create}" role="button">Add Task</a>
+        <a type="submit" class="btn btn-info" role="button" th:href="@{/report-form}">Generate Report</a>
+    </row>
+</div>
+</body>
+</html>
