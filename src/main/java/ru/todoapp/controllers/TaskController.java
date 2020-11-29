@@ -6,13 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.todoapp.models.Subtask;
 import ru.todoapp.models.Task;
 import ru.todoapp.services.ProjectService;
 import ru.todoapp.services.SubtaskService;
 import ru.todoapp.services.TaskService;
 import ru.todoapp.services.UserService;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -27,13 +29,14 @@ public class TaskController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    SubtaskService subtaskService;
-
 
     @GetMapping({"/", "", "tasks", "/tasks"})
     public String getTasks(Model model) {
-        model.addAttribute("tasks", taskService.getTasks());
+        List<Task> tasks = taskService.getTasks()
+                .stream()
+                .filter(task -> !task.getIsSubtask())
+                .collect(Collectors.toList());
+        model.addAttribute("tasks", tasks);
         return "tasks";
     }
 
@@ -106,15 +109,17 @@ public class TaskController {
         } else{
             model.addAttribute("message", "This task has " + task.getSubtasks().size() + " subtasks");
         }
-        model.addAttribute("subtask", new Subtask());
+        model.addAttribute("subtask", new Task());
         return "/subtasks";
     }
 
     @PostMapping("/tasks/{taskId}/subtasks")
-    public String submitSubtask(@PathVariable String taskId, Subtask subtask, Model model){
+    public String submitSubtask(@PathVariable String taskId, Task subtask, Model model){
         Task savedTask = taskService.findById(Long.valueOf(taskId));
-
-        subtaskService.save(subtask);
+        subtask.setProject(savedTask.getProject());
+        subtask.setUser(savedTask.getUser());
+        subtask.setIsSubtask(true);
+        taskService.save(subtask);
         savedTask.addSubtask(subtask);
         taskService.save(savedTask);
         return "redirect:/tasks/" + taskId + "/subtasks";

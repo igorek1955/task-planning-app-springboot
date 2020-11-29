@@ -28,9 +28,11 @@ public class Task {
     private User user;
 
     @OneToMany
-    private List<Subtask> subtasks = new ArrayList<>();
+    private List<Task> subtasks = new ArrayList<>();
 
-    public void addSubtask(Subtask subtask){
+    private Boolean isSubtask = false;
+
+    public void addSubtask(Task subtask){
         subtasks.add(subtask);
     }
 }

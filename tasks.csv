@@ -1,2 +1,4 @@
-2,create database,Petya,Banking
-5,buy construction hat,Vanya,Construction
+2,create database,Petya,Banking,subtasks of task #2
+
+5,buy construction hat,Vanya,Construction,subtasks of task #55,buy construction hat,Vanya,Construction,subtasks of task #5
+7,cheek,Vanya,Construction,subtasks of task #7
